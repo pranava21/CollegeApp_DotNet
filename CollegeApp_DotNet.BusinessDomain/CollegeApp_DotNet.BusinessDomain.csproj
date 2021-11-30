@@ -27,10 +27,15 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="BusinessModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CollegeApp_DotNet.DataAccess\CollegeApp_DotNet.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

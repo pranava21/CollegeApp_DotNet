@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace CollegeApp_DotNet.WebServices
+namespace CollegeApp_DotNet.DataAccess.Models
 {
     public partial class collegeDatabaseContext : DbContext
     {
