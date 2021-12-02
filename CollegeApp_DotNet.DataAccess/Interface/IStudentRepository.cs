@@ -10,5 +10,6 @@ namespace CollegeApp_DotNet.DataAccess.Interface
     public interface IStudentRepository
     {
         List<StudentDetails> GetStudentDetails(string departmentUid);
+        bool AddStudent(AddStudentDetailsDM studentDetails);
     }
 }

@@ -1,6 +1,8 @@
-﻿using CollegeApp_DotNet.BusinessDomain.Interface;
+﻿using AutoMapper;
+using CollegeApp_DotNet.BusinessDomain.Interface;
 using CollegeApp_DotNet.BusinessDomain.Models;
 using CollegeApp_DotNet.DataAccess.Interface;
+using CollegeApp_DotNet.DataAccess.RepositoryModels;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +15,18 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
     {
         private readonly IStudentRepository studentRespository;
         private readonly IDepartmentRepository departmentRepository;
+        private readonly IMapper Mapper;
 
-        public StudentBL(IStudentRepository studentRespository, IDepartmentRepository departmentRepository)
+        public StudentBL(IStudentRepository studentRespository, IDepartmentRepository departmentRepository, IMapper Mapper)
         {
             this.studentRespository = studentRespository; 
             this.departmentRepository = departmentRepository;
+            this.Mapper = Mapper;
         }
 
-        public ResponseMessage<List<StudentDepartmentDetails>> GetStudentDetails(string departmentUid)
+        public ResponseMessageBM<List<StudentDepartmentDetails>> GetStudentDetails(string departmentUid)
         {
-            ResponseMessage<List<StudentDepartmentDetails>> responseMessage = new ResponseMessage<List<StudentDepartmentDetails>>();
+            ResponseMessageBM<List<StudentDepartmentDetails>> responseMessage = new ResponseMessageBM<List<StudentDepartmentDetails>>();
             var departmentDetails = departmentRepository.GetDepartmentDetails(departmentUid);
             var studentDetails = studentRespository.GetStudentDetails(departmentUid);
             List<StudentDepartmentDetails> details = new List<StudentDepartmentDetails>();
@@ -55,6 +59,32 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                 responseMessage.Response = details;
                 return responseMessage;
             }
+        }
+
+        public Response AddStudent(AddStudentDetailsBM studentDetailsBM)
+        {
+            Response responseMessage = new Response();
+            if(studentDetailsBM != null)
+            {
+                var studentDetailsDM = Mapper.Map<AddStudentDetailsDM>(studentDetailsBM);
+                var isStudentAdded = this.studentRespository.AddStudent(studentDetailsDM);
+                if (isStudentAdded)
+                {
+                    responseMessage.IsSuccess = true;
+                    responseMessage.Message = "Student Added Successful";
+                    return responseMessage;
+                }
+                else
+                {
+                    responseMessage.IsSuccess = false;
+                    responseMessage.Message = "Student not Added";
+                    return responseMessage;
+                }
+            }
+            responseMessage.IsSuccess = false;
+            responseMessage.Message = "Student not Added";
+            return responseMessage;
+
         }
     }
 }

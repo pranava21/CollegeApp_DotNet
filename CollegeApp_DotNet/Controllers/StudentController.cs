@@ -25,7 +25,7 @@ namespace CollegeApp_DotNet.WebServices.Controllers
         public IActionResult GetAllStudents(string departmentUid)
         {
             logger.Information("Module: StudentController/GetAllStudents - API : START");
-            ResponseMessage<List<StudentDepartmentDetails>> response = this.studentBL.GetStudentDetails(departmentUid);
+            ResponseMessageBM<List<StudentDepartmentDetails>> response = this.studentBL.GetStudentDetails(departmentUid);
             if(response.IsSuccess == false)
             {
                 logger.Information("Module: StudentController/GetAllStudents - API : END");
@@ -36,6 +36,23 @@ namespace CollegeApp_DotNet.WebServices.Controllers
                 logger.Information("Module: StudentController/GetAllStudents - API : END");
                 return Ok(response);
             }
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("AddStudent")]
+        public IActionResult AddStudent(AddStudentDetailsBM studentDetailsBM)
+        {
+            logger.Information("Module: StudentController/AddStudent - API : START");
+            Response response = this.studentBL.AddStudent(studentDetailsBM);
+            if (response.IsSuccess)
+            {
+                logger.Information("Module: StudentController/AddStudent - API : END");
+                return Ok(response);
+            }
+            logger.Information("Module: StudentController/AddStudent - API : END");
+            return BadRequest(response);
         }
     }
 }

@@ -4,6 +4,7 @@ namespace CollegeApp_DotNet.BusinessDomain.Interface
 {
     public interface IStudentBL
     {
-        ResponseMessage<List<StudentDepartmentDetails>> GetStudentDetails(string departmentUid);
+        ResponseMessageBM<List<StudentDepartmentDetails>> GetStudentDetails(string departmentUid);
+        Response AddStudent(AddStudentDetailsBM studentDetailsBM);
     }
 }

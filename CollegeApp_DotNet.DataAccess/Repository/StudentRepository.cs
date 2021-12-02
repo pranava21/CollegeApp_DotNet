@@ -38,6 +38,38 @@ namespace CollegeApp_DotNet.DataAccess.Repository
 
             return studentDetails;
         }
+
+        public bool AddStudent(AddStudentDetailsDM studentDetails)
+        {
+            if (studentDetails == null) return false;
+
+            var departmentDetails = this.departmentRepository.GetDepartmentDetails(studentDetails.DepartmentUid);
+            if(departmentDetails == null) return false;
+
+            var student = new Student
+            {
+                DepartmentUid = Guid.Parse(studentDetails.DepartmentUid),
+                Name = studentDetails.Name,
+                Email = studentDetails.Email,
+                Phone = studentDetails.Phone,
+                Address = studentDetails.Address
+            };
+            this.context.Students.Add(student);
+            using (var transaction = this.context.Database.BeginTransaction())
+            {
+                try 
+                { 
+                    this.context.SaveChanges();
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+        }
         #endregion
     }
 }
