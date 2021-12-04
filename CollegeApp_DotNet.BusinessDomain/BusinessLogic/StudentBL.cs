@@ -27,7 +27,7 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
         public ResponseMessageBM<List<StudentDepartmentDetails>> GetStudentDetails(string departmentUid)
         {
             ResponseMessageBM<List<StudentDepartmentDetails>> responseMessage = new ResponseMessageBM<List<StudentDepartmentDetails>>();
-            var departmentDetails = departmentRepository.GetDepartmentDetails(departmentUid);
+            var departmentDetails = departmentRepository.GetDepartmentDetailsById(departmentUid);
             var studentDetails = studentRespository.GetStudentDetails(departmentUid);
             List<StudentDepartmentDetails> details = new List<StudentDepartmentDetails>();
             if (departmentDetails != null && studentDetails != null)

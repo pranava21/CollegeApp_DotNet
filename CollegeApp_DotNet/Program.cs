@@ -28,12 +28,18 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddMvc();
 #endregion
-
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => {
+        options.AllowAnyOrigin();
+        options.AllowAnyHeader();
+        options.AllowAnyMethod();
+     });
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddDbContext<collegeDatabaseContext>();
 
 DependencyInjection.RegisterServies(builder.Services);
@@ -47,6 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

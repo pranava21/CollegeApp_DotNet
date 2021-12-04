@@ -14,6 +14,7 @@ namespace CollegeApp_DotNet.BusinessDomain
         public AutoMapperConfig()
         {
             CreateMap<AddStudentDetailsBM, AddStudentDetailsDM>().ReverseMap();
+            CreateMap<DepartmentDetailsBM, DepartmentDetailsDM>().ReverseMap();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace CollegeApp_DotNet.DataAccess.Repository
             collegeDatabaseContext = context;
         }
         #endregion
-        public DepartmentDetailsDM GetDepartmentDetails(string departmentUid)
+        public DepartmentDetailsDM GetDepartmentDetailsById(string departmentUid)
         {
             var departmentDetails = (from d in collegeDatabaseContext.Departments
                                      where d.DepartmentUid.ToString() == departmentUid
@@ -30,6 +30,17 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                                          DepartmentUid = d.DepartmentUid,
                                          DepartmentName = d.DepartmentName
                                      }).FirstOrDefault();
+            return departmentDetails;
+        }
+
+        public List<DepartmentDetailsDM> GetDepartmentDetails()
+        {
+            var departmentDetails = (from d in collegeDatabaseContext.Departments
+                                     select new DepartmentDetailsDM
+                                     {
+                                         DepartmentUid = d.DepartmentUid,
+                                         DepartmentName = d.DepartmentName
+                                     }).ToList();
             return departmentDetails;
         }
     }

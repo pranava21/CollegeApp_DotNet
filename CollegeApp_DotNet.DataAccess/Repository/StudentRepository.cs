@@ -43,7 +43,7 @@ namespace CollegeApp_DotNet.DataAccess.Repository
         {
             if (studentDetails == null) return false;
 
-            var departmentDetails = this.departmentRepository.GetDepartmentDetails(studentDetails.DepartmentUid);
+            var departmentDetails = this.departmentRepository.GetDepartmentDetailsById(studentDetails.DepartmentUid);
             if(departmentDetails == null) return false;
 
             var student = new Student

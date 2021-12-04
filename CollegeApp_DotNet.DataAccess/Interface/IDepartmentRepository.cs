@@ -9,6 +9,7 @@ namespace CollegeApp_DotNet.DataAccess.Interface
 {
     public interface IDepartmentRepository
     {
-        DepartmentDetailsDM GetDepartmentDetails(string departmentUid);
+        DepartmentDetailsDM GetDepartmentDetailsById(string departmentUid);
+        List<DepartmentDetailsDM> GetDepartmentDetails();
     }
 }
