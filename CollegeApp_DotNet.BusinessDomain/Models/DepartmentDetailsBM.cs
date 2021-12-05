@@ -10,5 +10,6 @@ namespace CollegeApp_DotNet.BusinessDomain.Models
     {
         public Guid DepartmentUid { get; set; }
         public string? DepartmentName { get; set; }
+        public string? DepartmentImageUrl { get; set; }
     }
 }

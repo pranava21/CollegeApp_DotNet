@@ -14,6 +14,7 @@ namespace CollegeApp_DotNet.DataAccess.Models
         public Guid DepartmentUid { get; set; }
         public string DepartmentName { get; set; } = null!;
         public string? DepartmentCode { get; set; }
+        public string? DepartmentImageUrl { get; set; }
 
         public virtual ICollection<Faculty> Faculties { get; set; }
         public virtual ICollection<Student> Students { get; set; }

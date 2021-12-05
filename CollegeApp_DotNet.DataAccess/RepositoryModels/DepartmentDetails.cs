@@ -10,5 +10,6 @@ namespace CollegeApp_DotNet.DataAccess.RepositoryModels
     {
         public Guid DepartmentUid { get; set; }
         public string? DepartmentName { get; set;}
+        public string? DepartmentImageUrl { get; set;}
     }
 }

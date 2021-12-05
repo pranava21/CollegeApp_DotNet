@@ -71,6 +71,8 @@ namespace CollegeApp_DotNet.DataAccess.Models
 
                 entity.Property(e => e.DepartmentCode).HasMaxLength(10);
 
+                entity.Property(e => e.DepartmentImageUrl).HasMaxLength(1000);
+
                 entity.Property(e => e.DepartmentName).HasMaxLength(200);
             });
 

@@ -39,7 +39,8 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                                      select new DepartmentDetailsDM
                                      {
                                          DepartmentUid = d.DepartmentUid,
-                                         DepartmentName = d.DepartmentName
+                                         DepartmentName = d.DepartmentName,
+                                         DepartmentImageUrl = d.DepartmentImageUrl
                                      }).ToList();
             return departmentDetails;
         }
