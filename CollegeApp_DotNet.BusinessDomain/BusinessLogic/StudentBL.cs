@@ -13,17 +13,22 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
 {
     public class StudentBL : IStudentBL
     {
+        #region Private Variables
         private readonly IStudentRepository studentRespository;
         private readonly IDepartmentRepository departmentRepository;
         private readonly IMapper Mapper;
+        #endregion
 
+        #region Constructor
         public StudentBL(IStudentRepository studentRespository, IDepartmentRepository departmentRepository, IMapper Mapper)
         {
             this.studentRespository = studentRespository; 
             this.departmentRepository = departmentRepository;
             this.Mapper = Mapper;
         }
+        #endregion
 
+        #region Public Methods
         public ResponseMessageBM<List<StudentDepartmentDetails>> GetStudentDetails(string departmentUid)
         {
             ResponseMessageBM<List<StudentDepartmentDetails>> responseMessage = new ResponseMessageBM<List<StudentDepartmentDetails>>();
@@ -86,5 +91,6 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
             return responseMessage;
 
         }
+        #endregion
     }
 }

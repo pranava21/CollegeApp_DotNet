@@ -13,13 +13,20 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
 {
     public class DepartmentBL : IDepartmentBL
     {
+        #region Private Variables
         private readonly IDepartmentRepository departmentRepository;
         private readonly IMapper Mapper;
+        #endregion
+
+        #region Constructor
         public DepartmentBL(IDepartmentRepository departmentRepository, IMapper mapper)
         {
             this.departmentRepository = departmentRepository;
             Mapper = mapper;
         }
+        #endregion
+
+        #region Public Methods
         public ResponseMessageBM<List<DepartmentDetailsBM>> GetDepartmentDetails()
         {
             ResponseMessageBM<List<DepartmentDetailsBM>> response = new ResponseMessageBM<List<DepartmentDetailsBM>>();
@@ -41,5 +48,6 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                 return response;
             }
         }
+        #endregion
     }
 }

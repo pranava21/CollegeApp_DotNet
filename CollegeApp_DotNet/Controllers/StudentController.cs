@@ -9,15 +9,20 @@ namespace CollegeApp_DotNet.WebServices.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
+        #region Private Variables
         private readonly IStudentBL studentBL;
         private readonly Serilog.ILogger logger;
+        #endregion
 
+        #region Constructor
         public StudentController(IStudentBL studentBL, Serilog.ILogger logger)
         {
             this.studentBL = studentBL;
             this.logger = logger;
         }
+        #endregion
 
+        #region APIs
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -54,5 +59,6 @@ namespace CollegeApp_DotNet.WebServices.Controllers
             logger.Information("Module: StudentController/AddStudent - API : END");
             return BadRequest(response);
         }
+        #endregion
     }
 }

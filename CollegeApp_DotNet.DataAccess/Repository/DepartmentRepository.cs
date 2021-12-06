@@ -21,6 +21,8 @@ namespace CollegeApp_DotNet.DataAccess.Repository
             collegeDatabaseContext = context;
         }
         #endregion
+
+        #region Public Methods
         public DepartmentDetailsDM GetDepartmentDetailsById(string departmentUid)
         {
             var departmentDetails = (from d in collegeDatabaseContext.Departments
@@ -44,5 +46,6 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                                      }).ToList();
             return departmentDetails;
         }
+        #endregion
     }
 }

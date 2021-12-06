@@ -7,13 +7,18 @@ namespace CollegeApp_DotNet.WebServices.Controllers
     [ApiController]
     public class DepartmentController : Controller
     {
+        #region Private Variables
         private readonly IDepartmentBL departmentBL;
+        #endregion
 
+        #region Constructor
         public DepartmentController(IDepartmentBL departmentBL)
         {
             this.departmentBL = departmentBL;
         }
+        #endregion
 
+        #region APIs
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -30,5 +35,6 @@ namespace CollegeApp_DotNet.WebServices.Controllers
                 return NotFound(response);
             }
         }
+        #endregion
     }
 }
