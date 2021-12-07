@@ -33,7 +33,8 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                                   {
                                       StudentUid = s.StudentUid.ToString(),
                                       StudentName = s.Name,
-                                      StudentEmail = s.Email
+                                      StudentEmail = s.Email,
+                                      PhoneNo = s.Phone
                                   }).ToList();
 
             return studentDetails;
@@ -45,6 +46,9 @@ namespace CollegeApp_DotNet.DataAccess.Repository
 
             var departmentDetails = this.departmentRepository.GetDepartmentDetailsById(studentDetails.DepartmentUid);
             if(departmentDetails == null) return false;
+
+            var studentListByName = this.GetStudentDetailsByName(studentDetails.DepartmentUid, studentDetails.Name);
+            if(studentListByName.Count > 0) return false;
 
             var student = new Student
             {
@@ -69,6 +73,23 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                     return false;
                 }
             }
+        }
+        #endregion
+
+        #region Private Methods
+        private List<StudentDetails> GetStudentDetailsByName(string departmentUid, string name)
+        {
+            var studentDetails = (from s in this.context.Students
+                                  where s.DepartmentUid.ToString() == departmentUid && s.Name.ToLower() == name.ToLower()
+                                  select new StudentDetails
+                                  {
+                                      StudentUid = s.StudentUid.ToString(),
+                                      StudentName = s.Name,
+                                      StudentEmail = s.Email,
+                                      PhoneNo = s.Phone
+                                  }).ToList();
+
+            return studentDetails;
         }
         #endregion
     }

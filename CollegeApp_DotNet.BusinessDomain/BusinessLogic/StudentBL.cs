@@ -43,6 +43,7 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                     student.StudentName = studentDetail.StudentName;
                     student.StudentUid = studentDetail.StudentUid;
                     student.StudentEmail = studentDetail.StudentEmail;
+                    student.PhoneNo = studentDetail.PhoneNo;
                     student.DepartmentUid = departmentDetails.DepartmentUid.ToString();
                     student.DepartmentName = departmentDetails.DepartmentName;
 

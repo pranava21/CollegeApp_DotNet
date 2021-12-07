@@ -11,5 +11,6 @@ namespace CollegeApp_DotNet.DataAccess.RepositoryModels
         public string StudentUid { get; set; }
         public string StudentName { get; set;}
         public string StudentEmail { get; set;}
+        public string PhoneNo { get; set;}
     }
 }

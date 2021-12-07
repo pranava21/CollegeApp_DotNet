@@ -13,5 +13,6 @@ namespace CollegeApp_DotNet.DataAccess.RepositoryModels
         public string Phone { get; set; }
         public string Address { get; set; }
         public string DepartmentUid { get; set; }
+        public string DepartmentName { get; set; }
     }
 }

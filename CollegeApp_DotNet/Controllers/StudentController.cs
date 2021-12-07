@@ -11,7 +11,7 @@ namespace CollegeApp_DotNet.WebServices.Controllers
     {
         #region Private Variables
         private readonly IStudentBL studentBL;
-        private readonly Serilog.ILogger logger;
+        private readonly Serilog.ILogger logger; 
         #endregion
 
         #region Constructor
@@ -47,7 +47,7 @@ namespace CollegeApp_DotNet.WebServices.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("AddStudent")]
-        public IActionResult AddStudent(AddStudentDetailsBM studentDetailsBM)
+        public IActionResult AddStudent([FromBody]AddStudentDetailsBM studentDetailsBM)
         {
             logger.Information("Module: StudentController/AddStudent - API : START");
             Response response = this.studentBL.AddStudent(studentDetailsBM);
