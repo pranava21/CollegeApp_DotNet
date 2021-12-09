@@ -33,7 +33,7 @@ jobs:
       with:
         local: /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/
         remote: /home/pranava/college_app_test/
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        password: ${{ secrets.PASSWORD }}
+        host: 192.169.0.170
+        username: pranava
+        password: 21071998
     
