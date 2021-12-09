@@ -28,8 +28,6 @@ jobs:
     - name: Restore dependencies, Build and Publish
       run: |
         dotnet publish --configuration Release
-    - name: Sleep
-      run: sleep(10)
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@master
       with:
