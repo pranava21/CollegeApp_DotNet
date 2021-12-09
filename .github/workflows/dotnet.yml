@@ -29,7 +29,7 @@ jobs:
       run: |
         dotnet publish --configuration Release
     - name: Copy via ssh
-      uses: garygrossgarten/github-action-scp@v0.5.3
+      uses: garygrossgarten/github-action-scp@v0.7.3
       with:
         local: /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/
         remote: /home/pranava/college_app_test/
