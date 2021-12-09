@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CollegeApp_DotNet.WebServices
+namespace CollegeApp_DotNet.DataAccess.Models
 {
     public partial class Department
     {
@@ -14,6 +14,7 @@ namespace CollegeApp_DotNet.WebServices
         public Guid DepartmentUid { get; set; }
         public string DepartmentName { get; set; } = null!;
         public string? DepartmentCode { get; set; }
+        public string? DepartmentImageUrl { get; set; }
 
         public virtual ICollection<Faculty> Faculties { get; set; }
         public virtual ICollection<Student> Students { get; set; }

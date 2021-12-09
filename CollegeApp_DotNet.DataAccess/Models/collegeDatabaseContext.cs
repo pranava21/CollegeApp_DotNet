@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace CollegeApp_DotNet.WebServices
+namespace CollegeApp_DotNet.DataAccess.Models
 {
     public partial class collegeDatabaseContext : DbContext
     {
@@ -70,6 +70,8 @@ namespace CollegeApp_DotNet.WebServices
                 entity.Property(e => e.DepartmentUid).HasDefaultValueSql("uuid_generate_v4()");
 
                 entity.Property(e => e.DepartmentCode).HasMaxLength(10);
+
+                entity.Property(e => e.DepartmentImageUrl).HasMaxLength(1000);
 
                 entity.Property(e => e.DepartmentName).HasMaxLength(200);
             });

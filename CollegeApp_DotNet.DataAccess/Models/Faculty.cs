@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CollegeApp_DotNet.WebServices
+namespace CollegeApp_DotNet.DataAccess.Models
 {
     public partial class Faculty
     {
