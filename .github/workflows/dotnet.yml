@@ -34,6 +34,6 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }} 
         known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
     - name: Deploy with rsync
-      run: rsync -avz /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/ {% raw %}${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}{% endraw %}:/var/www/college_app_dotnet/
+      run: rsync -avz /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/college_app_dotnet/
     
     
