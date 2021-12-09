@@ -28,12 +28,14 @@ jobs:
     - name: Restore dependencies, Build and Publish
       run: |
         dotnet publish --configuration Release
-    - name: Copy via ssh
-      uses: garygrossgarten/github-action-scp@v0.5.3
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2
       with:
-        local: /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/
-        remote: /home/pranava/college_app_test/
-        host: 192.169.0.170
-        username: pranava
-        password: 21071998
+        key: ${{ secrets.PRIVATE_KEY }} 
+        known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+    - name: Adding Known Hosts
+      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+    - name: Deploy with rsync
+      run: rsync -avz /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/college_app_dotnet/
+    
     
