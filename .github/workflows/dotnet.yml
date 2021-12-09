@@ -28,22 +28,13 @@ jobs:
     - name: Restore dependencies, Build and Publish
       run: |
         dotnet publish --configuration Release
-    - name: Push to SFTP
-  # You may pin to the exact commit or the version.
-  # uses: AbleLincoln/push-to-sftp@a6c117bb60fdc94ab8e5b139cdb0b19bea582c81
-      uses: AbleLincoln/push-to-sftp@v1.2
+    - name: Copy via ssh
+      uses: garygrossgarten/github-action-scp@v0.5.3
       with:
-        # SFTP server
-        host: 192.168.0.255
-        # SFTP server port
-        port: 22
-        # SFTP username
-        username: pranava 
-        # SFTP password
-        password: 21071998 
-        # Source directory to upload from (will upload all files in this directory)
-        sourceDir: /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/
-        # Remote directory to upload to (WARNING: overwrites ALL files in this directory)
-        targetDir: /var/www/college_app_dotnet
+        local: /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/
+        remote: /home/pranava/college_app_test/
+        host: 192.169.0.170
+        username: pranava
+        password: 21071998
     
     
