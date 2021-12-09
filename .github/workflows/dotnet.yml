@@ -28,11 +28,5 @@ jobs:
     - name: Restore dependencies, Build and Publish
       run: |
         dotnet publish src -c Release -o deploy
-    - name: Copy via ssh
-      uses: garygrossgarten/github-action-scp@v0.5.3
-      with:
-        local: /home/pranava/college_app_dotnet/deploy
-        remote: ${{ secrets.REMOTE_TARGET }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
+    
     
