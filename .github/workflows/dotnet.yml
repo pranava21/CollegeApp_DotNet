@@ -33,8 +33,6 @@ jobs:
       with:
         key: ${{ secrets.PRIVATE_KEY }} 
         known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-    - name: Adding Known Hosts
-      run: ssh-keyscan -H {% raw %}${{ secrets.SSH_HOST }}{% endraw %} >> ~/.ssh/known_hosts
     - name: Deploy with rsync
       run: rsync -avz /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/ {% raw %}${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}{% endraw %}:/var/www/college_app_dotnet/
     
