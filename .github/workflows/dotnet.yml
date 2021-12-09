@@ -35,7 +35,6 @@ jobs:
         remote: /var/www/college_app_dotnet/
         host: 192.169.0.170
         username: pranava
-        password: 21071998
-        privatekey: ${{ secrets.PRIVATE_KEY }}
+        privateKey: ${{ secrets.PRIVATE_KEY }}
     
     
