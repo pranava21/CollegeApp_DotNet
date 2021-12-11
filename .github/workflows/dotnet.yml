@@ -32,7 +32,7 @@ jobs:
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
         local: /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/
-        remote: /home/pranava/college_app_test/
+        remote: /var/www/college_app_dotnet
         host: 49.206.28.135
         port: 80
         username: ${{ secrets.SSH_USER }}
