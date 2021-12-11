@@ -2,6 +2,7 @@ using AutoMapper;
 using CollegeApp_DotNet.BusinessDomain;
 using CollegeApp_DotNet.DataAccess.Models;
 using CollegeApp_DotNet.WebServices;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -28,6 +29,7 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddMvc();
 #endregion
+
 builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", options => {
@@ -40,7 +42,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<collegeDatabaseContext>();
+string connString = builder.Configuration.GetConnectionString("CollegeAppConnectionString");
+builder.Services.AddDbContext<collegeDatabaseContext>(options => options.UseNpgsql(connString));
+
 
 DependencyInjection.RegisterServies(builder.Services);
 
