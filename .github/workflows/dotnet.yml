@@ -1,9 +1,8 @@
 name: .NET
 
 on:
-  push:
-    branches: [ dev_preview ]
   pull_request:
+    types: [closed]
     branches: [ master ]
   workflow_dispatch:
     inputs: 
