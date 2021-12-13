@@ -9,12 +9,14 @@ namespace CollegeApp_DotNet.WebServices.Controllers
     {
         #region Private Variables
         private readonly IDepartmentBL departmentBL;
+        private readonly Serilog.ILogger logger;
         #endregion
 
         #region Constructor
-        public DepartmentController(IDepartmentBL departmentBL)
+        public DepartmentController(IDepartmentBL departmentBL, Serilog.ILogger _logger)
         {
             this.departmentBL = departmentBL;
+            logger = _logger;
         }
         #endregion
 
@@ -25,13 +27,16 @@ namespace CollegeApp_DotNet.WebServices.Controllers
         [HttpGet("GetDepartments")]
         public IActionResult GetDepartments()
         {
+            logger.Information("Module: DepartmentController/GetDepartments - API: Start");
             var response = this.departmentBL.GetDepartmentDetails();
             if (response.IsSuccess)
             {
+                logger.Information("Module: DepartmentController/GetDepartments - API: End");
                 return Ok(response);
             }
             else
             {
+                logger.Information("Module: DepartmentController/GetDepartments - API: End");
                 return NotFound(response);
             }
         }
