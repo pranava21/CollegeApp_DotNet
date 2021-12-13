@@ -2,14 +2,14 @@ using AutoMapper;
 using CollegeApp_DotNet.BusinessDomain;
 using CollegeApp_DotNet.DataAccess.Models;
 using CollegeApp_DotNet.WebServices;
+using CollegeApp_DotNet.WebServices.ErrorHandler;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Templates;
 
-var builder = WebApplication.CreateBuilder(args);
-
+var builder = WebApplication.CreateBuilder(args);    
 // Add services to the container.
 #region Serilog
 builder.Host.UseSerilog((ctx, lc) =>
