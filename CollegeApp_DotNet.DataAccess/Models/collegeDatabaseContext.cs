@@ -21,15 +21,6 @@ namespace CollegeApp_DotNet.DataAccess.Models
         public virtual DbSet<Faculty> Faculties { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-    #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=192.168.0.209;Database=collegeDatabase;Username=postgres;Password=pranava");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasPostgresExtension("uuid-ossp");
@@ -37,27 +28,31 @@ namespace CollegeApp_DotNet.DataAccess.Models
             modelBuilder.Entity<Attendance>(entity =>
             {
                 entity.HasKey(e => e.AttendanceUid)
-                    .HasName("attendance_pkey");
+                    .HasName("Attendance_pkey");
 
                 entity.ToTable("Attendance", "rsuniversity");
 
-                entity.Property(e => e.AttendanceUid).HasDefaultValueSql("uuid_generate_v4()");
+                entity.Property(e => e.AttendanceUid).ValueGeneratedNever();
 
-                entity.Property(e => e.Absent).HasDefaultValueSql("false");
+                entity.Property(e => e.AttendedOn).HasColumnType("timestamp without time zone");
 
-                entity.Property(e => e.Present).HasDefaultValueSql("false");
+                entity.HasOne(d => d.DepartmentU)
+                    .WithMany(p => p.Attendances)
+                    .HasForeignKey(d => d.DepartmentUid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("department_attendance_fkey");
 
                 entity.HasOne(d => d.FacultyU)
                     .WithMany(p => p.Attendances)
                     .HasForeignKey(d => d.FacultyUid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("attendance_faculty_fkey");
+                    .HasConstraintName("faculty_attendance_fkey");
 
                 entity.HasOne(d => d.StudentU)
                     .WithMany(p => p.Attendances)
                     .HasForeignKey(d => d.StudentUid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("attendance_student_fkey");
+                    .HasConstraintName("student_attendance_fkey");
             });
 
             modelBuilder.Entity<Department>(entity =>
