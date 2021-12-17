@@ -28,7 +28,7 @@ jobs:
       run: |
         dotnet publish --configuration Release
     - name: Copy appsettings.DEV to appsettings
-      run: cp -f /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/ConfigFiles/appSettings.PROD.json /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/appsettings.json
+      run: cp -f /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/ConfigFiles/appSettings.PROD.json /home/runner/work/CollegeApp_DotNet/CollegeApp_DotNet/CollegeApp_DotNet/bin/Release/net6.0/publish/appsettings.json
     - name: Copy via ssh
       uses: garygrossgarten/github-action-scp@v0.7.3
       with:
