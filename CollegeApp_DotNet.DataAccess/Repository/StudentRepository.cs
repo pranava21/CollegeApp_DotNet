@@ -112,7 +112,7 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                     DepartmentUid = a.DepartmentUid,
                     FacultyUid = a.FacultyUid,
                     StudentUid = a.StudentUid,
-                    AttendedOn = a.AttendedOn.ToString() != "" ? a.AttendedOn :  DateTime.Now,
+                    AttendedOn = a.AttendedOn.ToString() != "" ? a.AttendedOn :  DateTime.UtcNow,
                 };
                 this.context.Attendances.Add(details);
                 using (var transaction = this.context.Database.BeginTransaction())

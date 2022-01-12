@@ -21,6 +21,15 @@ namespace CollegeApp_DotNet.DataAccess.Models
         public virtual DbSet<Faculty> Faculties { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseNpgsql("Host=192.168.0.144;Database=collegeDatabase;Username=postgres;Password=pranava");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasPostgresExtension("uuid-ossp");
@@ -32,7 +41,7 @@ namespace CollegeApp_DotNet.DataAccess.Models
 
                 entity.ToTable("Attendance", "rsuniversity");
 
-                entity.Property(e => e.AttendanceUid).ValueGeneratedNever();
+                entity.Property(e => e.AttendanceUid).HasDefaultValueSql("uuid_generate_v4()");
 
                 entity.Property(e => e.AttendedOn).HasColumnType("timestamp without time zone");
 
