@@ -14,6 +14,8 @@ namespace CollegeApp_DotNet.WebServices
 
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IDepartmentBL, DepartmentBL>();
+            services.AddScoped<IFacultyBL, FacultyBL>();
+            services.AddScoped<IFacultyRepository, FacultyRepository>();
         }
     }
 }

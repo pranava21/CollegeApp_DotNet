@@ -107,6 +107,47 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
             return responseMessage;
 
         }
+
+        public Response TakeAttendance(List<AttendanceModelBM> attendanceDetails)
+        {
+            logger.Information("Module: StudentBL/TakeAttendance - BL: Start");
+            if (attendanceDetails == null || attendanceDetails.Count == 0)
+            {
+                logger.Information("Module: StudentBL/TakeAttendance - BL: Empty payload received");
+                logger.Information("Module: StudentBL/TakeAttendance - BL: END");
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "Empty"
+                };
+            }
+            else
+            {
+                var attendanceDetailsDM = Mapper.Map<List<AttendanceModelDM>>(attendanceDetails);
+                var result = this.studentRespository.TakeAttendance(attendanceDetailsDM);
+
+                if (result)
+                {
+                    logger.Information("Module: StudentBL/TakeAttendance - BL: Attendance recored successfully");
+                    logger.Information("Module: StudentBL/TakeAttendance - BL: END");
+                    return new Response
+                    {
+                        IsSuccess = true,
+                        Message = "Attendance recored successfully"
+                    };
+                }
+                else
+                {
+                    logger.Information("Module: StudentBL/TakeAttendance - BL: Attendance not recorded");
+                    logger.Information("Module: StudentBL/TakeAttendance - BL: END");
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Attendance not recorded"
+                    };
+                }
+            }
+        }
         #endregion
     }
 }
