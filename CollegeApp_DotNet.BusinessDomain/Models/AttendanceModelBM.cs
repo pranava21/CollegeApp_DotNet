@@ -8,5 +8,6 @@ namespace CollegeApp_DotNet.BusinessDomain.Models
         public Guid StudentUid { get; set; }
         public Guid DepartmentUid { get; set; }
         public DateTime AttendedOn { get; set; }
+        public bool isPresent { get; set; }
     }
 }

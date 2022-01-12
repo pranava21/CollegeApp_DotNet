@@ -113,6 +113,7 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                     FacultyUid = a.FacultyUid,
                     StudentUid = a.StudentUid,
                     AttendedOn = a.AttendedOn.ToString() != "" ? a.AttendedOn :  DateTime.UtcNow,
+                    IsPresent = a.isPresent
                 };
                 this.context.Attendances.Add(details);
                 using (var transaction = this.context.Database.BeginTransaction())
@@ -161,9 +162,11 @@ namespace CollegeApp_DotNet.DataAccess.Repository
             var ids = (from a in this.context.Attendances
                        join d in this.context.Departments on a.DepartmentUid equals d.DepartmentUid
                        join f in this.context.Faculties on a.FacultyUid equals f.FacultyUid
-                       orderby a.AttendedOn descending
+                       orderby a.AttendedOn ascending 
                        select a.AttendanceId).ToList();
             if (ids.Count == 0) return 0;
+            ids.Sort();
+            ids.Reverse();
             return ids.First();
         }
         #endregion

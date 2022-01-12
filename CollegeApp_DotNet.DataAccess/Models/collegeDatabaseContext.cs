@@ -45,6 +45,8 @@ namespace CollegeApp_DotNet.DataAccess.Models
 
                 entity.Property(e => e.AttendedOn).HasColumnType("timestamp without time zone");
 
+                entity.Property(e => e.IsPresent).HasColumnName("isPresent");
+
                 entity.HasOne(d => d.DepartmentU)
                     .WithMany(p => p.Attendances)
                     .HasForeignKey(d => d.DepartmentUid)

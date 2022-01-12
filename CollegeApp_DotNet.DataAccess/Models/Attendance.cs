@@ -11,6 +11,7 @@ namespace CollegeApp_DotNet.DataAccess.Models
         public Guid StudentUid { get; set; }
         public Guid DepartmentUid { get; set; }
         public DateTime AttendedOn { get; set; }
+        public bool? IsPresent { get; set; }
 
         public virtual Department DepartmentU { get; set; } = null!;
         public virtual Faculty FacultyU { get; set; } = null!;
