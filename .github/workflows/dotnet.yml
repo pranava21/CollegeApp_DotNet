@@ -41,7 +41,7 @@ jobs:
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@v0.3.0
       with:
-        command: systemctl restart kestrel_college_app_dotnet.service
+        command: sudo systemctl restart kestrel_college_app_dotnet.service
         host: ${{ secrets.SSH_HOST }}
         port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USER }}
