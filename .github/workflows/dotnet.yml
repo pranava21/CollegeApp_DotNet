@@ -1,4 +1,4 @@
-name: .NET
+name: College App API
 
 on:
   pull_request:
@@ -41,7 +41,7 @@ jobs:
     - name: Run SSH command
       uses: garygrossgarten/github-action-ssh@v0.3.0
       with:
-        command: sudo systemctl restart kestrel_college_app_dotnet.service
+        command: systemctl restart kestrel_college_app_dotnet.service
         host: ${{ secrets.SSH_HOST }}
         port: ${{ secrets.SSH_PORT }}
         username: ${{ secrets.SSH_USER }}
