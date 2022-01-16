@@ -86,11 +86,57 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                 catch (Exception ex)
                 {
                     transaction.Rollback();
+                    logger.Information("Module: StudentRepository/GetStudentDetails - Repository: " + ex.ToString());
                     logger.Information("Module: StudentRepository/GetStudentDetails - Repository: Student not added");
                     logger.Information("Module: StudentRepository/GetStudentDetails - Repository: END");
                     return false;
                 }
             }
+        }
+
+        public bool TakeAttendance(List<AttendanceModelDM> attendanceDetails)
+        {
+            logger.Information("Module: StudentRepository/TakeAttendance - Repository: START");
+            const int defaultAttendanceId = 1;
+            if (attendanceDetails == null || attendanceDetails.Count == 0) return false;
+
+            var latestId = this.GetLatestAttendanceId(attendanceDetails.First().DepartmentUid.ToString(), attendanceDetails.First().FacultyUid.ToString());
+            if (latestId != 0) latestId += defaultAttendanceId;
+            else latestId = defaultAttendanceId;
+
+            foreach (var a in attendanceDetails)
+            {
+                var details = new Attendance
+                {
+                    AttendanceId = latestId,
+                    DepartmentUid = a.DepartmentUid,
+                    FacultyUid = a.FacultyUid,
+                    StudentUid = a.StudentUid,
+                    AttendedOn = a.AttendedOn.ToString() != "" ? a.AttendedOn :  DateTime.UtcNow,
+                    IsPresent = a.isPresent
+                };
+                this.context.Attendances.Add(details);
+                using (var transaction = this.context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        this.context.SaveChanges();
+                        transaction.Commit();
+                        logger.Information("Module: StudentRepository/TakeAttendance - Repository: " + JsonConvert.SerializeObject(details));
+                        logger.Information("Module: StudentRepository/TakeAttendance - Repository: Attendance Record Added");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        logger.Information("Module: StudentRepository/TakeAttendance - Repository: " + ex.ToString());
+                        logger.Information("Module: StudentRepository/TakeAttendance - Repository: Student not added");
+                        logger.Information("Module: StudentRepository/TakeAttendance - Repository: END");
+                        return false;
+                    }
+                }
+            }
+            logger.Information("Module: StudentRepository/TakeAttendance - Repository: END");
+            return true;
         }
         #endregion
 
@@ -110,6 +156,18 @@ namespace CollegeApp_DotNet.DataAccess.Repository
             logger.Information("Module: StudentRepository/GetStudentDetailsByName - Repository: " + JsonConvert.SerializeObject(studentDetails));
             logger.Information("Module: StudentRepository/GetStudentDetailsByName - Repository: END");
             return studentDetails;
+        }
+        private int GetLatestAttendanceId(string departmentUid, string facultyUid)
+        {
+            var ids = (from a in this.context.Attendances
+                       join d in this.context.Departments on a.DepartmentUid equals d.DepartmentUid
+                       join f in this.context.Faculties on a.FacultyUid equals f.FacultyUid
+                       orderby a.AttendedOn ascending 
+                       select a.AttendanceId).ToList();
+            if (ids.Count == 0) return 0;
+            ids.Sort();
+            ids.Reverse();
+            return ids.First();
         }
         #endregion
     }
