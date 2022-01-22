@@ -100,7 +100,7 @@ namespace CollegeApp_DotNet.DataAccess.Repository
             const int defaultAttendanceId = 1;
             if (attendanceDetails == null || attendanceDetails.Count == 0) return false;
 
-            var latestId = this.GetLatestAttendanceId(attendanceDetails.First().DepartmentUid.ToString(), attendanceDetails.First().FacultyUid.ToString());
+            var latestId = this.GetLatestAttendanceId();
             if (latestId != 0) latestId += defaultAttendanceId;
             else latestId = defaultAttendanceId;
 
@@ -157,17 +157,12 @@ namespace CollegeApp_DotNet.DataAccess.Repository
             logger.Information("Module: StudentRepository/GetStudentDetailsByName - Repository: END");
             return studentDetails;
         }
-        private int GetLatestAttendanceId(string departmentUid, string facultyUid)
+        private int GetLatestAttendanceId()
         {
-            var ids = (from a in this.context.Attendances
-                       join d in this.context.Departments on a.DepartmentUid equals d.DepartmentUid
-                       join f in this.context.Faculties on a.FacultyUid equals f.FacultyUid
-                       orderby a.AttendedOn ascending 
-                       select a.AttendanceId).ToList();
-            if (ids.Count == 0) return 0;
-            ids.Sort();
-            ids.Reverse();
-            return ids.First();
+            var id = (from a in this.context.Attendances
+                orderby a.AttendanceId descending
+                select a.AttendanceId).FirstOrDefault();
+            return id;
         }
         #endregion
     }
