@@ -10,6 +10,7 @@ namespace CollegeApp_DotNet.DataAccess.Models
             Attendances = new HashSet<Attendance>();
             Faculties = new HashSet<Faculty>();
             Students = new HashSet<Student>();
+            Users = new HashSet<User>();
         }
 
         public Guid DepartmentUid { get; set; }
@@ -20,5 +21,6 @@ namespace CollegeApp_DotNet.DataAccess.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
         public virtual ICollection<Faculty> Faculties { get; set; }
         public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

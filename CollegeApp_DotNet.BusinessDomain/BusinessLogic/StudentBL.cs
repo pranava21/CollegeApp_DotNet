@@ -44,8 +44,10 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                 foreach (var studentDetail in studentDetails)
                 {
                     StudentDepartmentDetails student = new StudentDepartmentDetails();
-                    student.StudentName = studentDetail.StudentName;
+                    student.StudentFirstName = studentDetail.StudentFirstName;
+                    student.StudentLastName = studentDetail.StudentLastName;
                     student.StudentUid = studentDetail.StudentUid;
+                    student.StudentId = studentDetail.StudentId;
                     student.StudentEmail = studentDetail.StudentEmail;
                     student.PhoneNo = studentDetail.PhoneNo;
                     student.DepartmentUid = departmentDetails.DepartmentUid.ToString();
@@ -133,7 +135,7 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                     return new Response
                     {
                         IsSuccess = true,
-                        Message = "Attendance recored successfully"
+                        Message = "Attendance recorded successfully"
                     };
                 }
                 else

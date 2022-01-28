@@ -11,7 +11,9 @@ namespace CollegeApp_DotNet.DataAccess.Models
         }
 
         public Guid StudentUid { get; set; }
-        public string Name { get; set; } = null!;
+        public string? StudentId { get; set; }
+        public string FirstName { get; set; } = null!;
+        public string? LastName { get; set; }
         public string Email { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public string Address { get; set; } = null!;

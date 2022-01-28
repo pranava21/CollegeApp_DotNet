@@ -20,6 +20,7 @@ namespace CollegeApp_DotNet.DataAccess.Models
         public virtual DbSet<Department> Departments { get; set; } = null!;
         public virtual DbSet<Faculty> Faculties { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -95,7 +96,11 @@ namespace CollegeApp_DotNet.DataAccess.Models
 
                 entity.Property(e => e.Email).HasMaxLength(100);
 
-                entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.FacultyId).HasMaxLength(10);
+
+                entity.Property(e => e.FirstName).HasMaxLength(200);
+
+                entity.Property(e => e.LastName).HasMaxLength(200);
 
                 entity.Property(e => e.Phone).HasMaxLength(10);
 
@@ -119,15 +124,51 @@ namespace CollegeApp_DotNet.DataAccess.Models
 
                 entity.Property(e => e.Email).HasMaxLength(100);
 
-                entity.Property(e => e.Name).HasMaxLength(100);
+                entity.Property(e => e.FirstName).HasMaxLength(200);
+
+                entity.Property(e => e.LastName).HasMaxLength(200);
 
                 entity.Property(e => e.Phone).HasMaxLength(10);
+
+                entity.Property(e => e.StudentId).HasMaxLength(10);
 
                 entity.HasOne(d => d.DepartmentU)
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.DepartmentUid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("student_department_fkey");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.UserUid)
+                    .HasName("User_pkey");
+
+                entity.ToTable("Users", "rsuniversity");
+
+                entity.Property(e => e.UserUid).HasDefaultValueSql("uuid_generate_v4()");
+
+                entity.Property(e => e.Address).HasMaxLength(500);
+
+                entity.Property(e => e.EmailId).HasMaxLength(200);
+
+                entity.Property(e => e.FirstName).HasMaxLength(200);
+
+                entity.Property(e => e.IsFaculty).HasColumnName("isFaculty");
+
+                entity.Property(e => e.IsStudent).HasColumnName("isStudent");
+
+                entity.Property(e => e.LastName).HasMaxLength(200);
+
+                entity.Property(e => e.Phone).HasMaxLength(10);
+
+                entity.Property(e => e.UserId).HasMaxLength(100);
+
+                entity.HasOne(d => d.DepartmentU)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.DepartmentUid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("department_user_fkey");
             });
 
             OnModelCreatingPartial(modelBuilder);
