@@ -35,17 +35,10 @@ public class AccountsBL : IAccountsBL
         var existingEmail = this._accountsRepository.CheckForExistingEmails(userDetailsBm.EmailId);
         if (!existingEmail)
         {
-            var existingUserId = this._accountsRepository.CheckForExistingUserId(userDetailsBm.UserId);
-            if (!existingUserId)
-            {
-                var userDetailsDm = Mapper.Map<AddUserDM>(userDetailsBm);
-                var result = this._accountsRepository.AddUser(userDetailsDm, facultyOrStudent);
-                response.Message = result;
-                response.IsSuccess = true;
-                return response;
-            }
-            response.Message = $"User with user id {userDetailsBm.UserId} already exists"; ;
-            response.IsSuccess = false;
+            var userDetailsDm = Mapper.Map<AddUserDM>(userDetailsBm);
+            var result = this._accountsRepository.AddUser(userDetailsDm, facultyOrStudent);
+            response.Message = result;
+            response.IsSuccess = true;
             return response;
         }
         response.Message = $"User with email {userDetailsBm.EmailId} already exists"; ;
@@ -53,5 +46,33 @@ public class AccountsBL : IAccountsBL
         return response;    
     }
 
+
+    public ResponseMessageBM<AddUserBM?> GetUserDetails(string emailId)
+    {
+        ResponseMessageBM<AddUserBM?> response = new ResponseMessageBM<AddUserBM?>();
+        if (string.IsNullOrEmpty(emailId))
+        {
+            response.IsSuccess = false;
+            response.Message = "Email ID is empty";
+            response.Response = null;
+            return response;
+        }
+
+        var userDm = this._accountsRepository.GetUserDetails(emailId);
+        if (userDm == null)
+        {
+            response.IsSuccess = false;
+            response.Message = "User not found";
+            response.Response = null;
+            return response;
+        }
+
+        var userBm = Mapper.Map<AddUserBM>(userDm);
+        response.IsSuccess = true;
+        response.Message = "User details found";
+        response.Response = userBm;
+
+        return response;
+    }
     #endregion
 }

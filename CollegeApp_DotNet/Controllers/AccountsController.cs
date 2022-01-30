@@ -36,5 +36,20 @@ namespace CollegeApp_DotNet.WebServices.Controllers
             }
             return BadRequest(response);
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetUser")]
+        public IActionResult GetUserDetails(string emailId)
+        {
+            var response = this.accountsBl.GetUserDetails(emailId);
+            if (!response.IsSuccess)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
     }
 }

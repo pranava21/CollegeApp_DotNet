@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollegeApp_DotNet.DataAccess.RepositoryModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,15 @@ namespace CollegeApp_DotNet.BusinessDomain.Models
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string EmailId { get; set; }
-        public string Password { get; set; }
         public string Address { get; set; }
         public int Age { get; set; }
         public Guid? DepartmentUid { get; set; }
         public bool isFaculty { get; set; }
         public bool isStudent { get; set; }
+
+        public static implicit operator AddUserBM(AddUserDM v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

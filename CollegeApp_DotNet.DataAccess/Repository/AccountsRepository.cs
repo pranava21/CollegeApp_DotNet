@@ -115,7 +115,27 @@ namespace CollegeApp_DotNet.DataAccess.Repository
 
             if (userIds.Count != 0) return true;
             return false;
-        } 
+        }
+
+        public AddUserDM? GetUserDetails(string emailId)
+        {
+            var user = (from u in this._context.Users
+                where u.EmailId == emailId
+                select new AddUserDM
+                {
+                    UserId = u.UserId,
+                    EmailId = emailId,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Address = u.Address,
+                    Age = u.Age,
+                    Phone = u.Phone,
+                    isFaculty = u.IsFaculty,
+                    isStudent = u.IsStudent,
+                    DepartmentUid = u.DepartmentUid
+                }).FirstOrDefault();
+            return user;
+        }
         #endregion
     }
 }
