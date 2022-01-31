@@ -46,6 +46,26 @@ namespace CollegeApp_DotNet.WebServices.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetStudent")]
+        public IActionResult GetStudentDetails(string emailId, string departmentUid)
+        {
+            logger.Information("Module: StudentController/GetStudent - API : START");
+            ResponseMessageBM<StudentDepartmentDetails> response = this.studentBL.GetStudent(emailId, departmentUid);
+            if (response.IsSuccess == false)
+            {
+                logger.Information("Module: StudentController/GetStudent - API : END");
+                return NotFound(response);
+            }
+            else
+            {
+                logger.Information("Module: StudentController/GetStudent - API : END");
+                return Ok(response);
+            }
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("AddStudent")]
         public IActionResult AddStudent([FromBody]AddStudentDetailsBM studentDetailsBM)
         {

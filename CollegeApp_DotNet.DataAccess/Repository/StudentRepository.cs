@@ -46,6 +46,24 @@ namespace CollegeApp_DotNet.DataAccess.Repository
             return studentDetails;
         }
 
+        public StudentDetails GetStudent(string emailId)
+        {
+            logger.Information("Module: StudentRepository/GetStudentDetails - Repository: START");
+            var studentDetails = (from s in this.context.Students
+                where s.Email == emailId
+                select new StudentDetails
+                {
+                    StudentUid = s.StudentUid.ToString(),
+                    StudentId = s.StudentId,
+                    StudentFirstName = s.FirstName,
+                    StudentLastName = s.LastName,
+                    StudentEmail = s.Email,
+                    PhoneNo = s.Phone
+                }).FirstOrDefault();
+            logger.Information("Module: StudentRepository/GetStudentDetails - Repository: END");
+            return studentDetails;
+        }
+
         public bool AddStudent(AddStudentDetailsDM studentDetails)
         {
             logger.Information("Module: StudentRepository/AddStudent - Repository: START");

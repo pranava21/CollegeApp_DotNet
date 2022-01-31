@@ -12,5 +12,6 @@ namespace CollegeApp_DotNet.DataAccess.Interface
         List<StudentDetails> GetStudentDetails(string departmentUid);
         bool AddStudent(AddStudentDetailsDM studentDetails);
         bool TakeAttendance(List<AttendanceModelDM> attendanceDetails);
+        StudentDetails GetStudent(string emailId);
     }
 }

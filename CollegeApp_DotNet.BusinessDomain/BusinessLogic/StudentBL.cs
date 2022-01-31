@@ -77,6 +77,30 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
             }
         }
 
+        public ResponseMessageBM<StudentDepartmentDetails> GetStudent(string emailId, string departmentUid)
+        {
+            ResponseMessageBM<StudentDepartmentDetails> response = new ResponseMessageBM<StudentDepartmentDetails>();
+            var departmentDetails = departmentRepository.GetDepartmentDetailsById(departmentUid);
+            var student = studentRespository.GetStudent(emailId);
+            StudentDepartmentDetails studentDetails = new StudentDepartmentDetails
+            {
+                StudentEmail = emailId,
+                DepartmentUid = departmentUid,
+                DepartmentName = departmentDetails.DepartmentName,
+                PhoneNo = student.PhoneNo,
+                StudentFirstName = student.StudentFirstName,
+                StudentLastName = student.StudentLastName,
+                StudentId = student.StudentId,
+                StudentUid =student.StudentUid
+            };
+
+            response.IsSuccess = true;
+            response.Response = studentDetails;
+            response.Message = "Success";
+
+            return response;
+        }
+
         public Response AddStudent(AddStudentDetailsBM studentDetailsBM)
         {
             logger.Information("Module: StudentBL/AddStudent - BL: Start");
