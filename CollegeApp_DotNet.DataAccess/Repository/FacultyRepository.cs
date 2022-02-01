@@ -9,54 +9,72 @@ namespace CollegeApp_DotNet.DataAccess.Repository;
 
 public class FacultyRepository : IFacultyRepository
 {
-	#region Private Variables
+    #region Private Variables
 
-	private ILogger logger;
-	private readonly collegeDatabaseContext collegeDatabaseContext;
-	#endregion
+    private ILogger logger;
+    private readonly collegeDatabaseContext collegeDatabaseContext;
+    #endregion
 
-	#region Constructor
+    #region Constructor
 
-	public FacultyRepository(ILogger _logger, collegeDatabaseContext collegeDatabaseContext)
-	{
-		logger = _logger;
-		this.collegeDatabaseContext = collegeDatabaseContext;
-	}
+    public FacultyRepository(ILogger _logger, collegeDatabaseContext collegeDatabaseContext)
+    {
+        logger = _logger;
+        this.collegeDatabaseContext = collegeDatabaseContext;
+    }
 
-	#endregion
+    #endregion
 
-	#region Public Methods
+    #region Public Methods
 
-	public List<FacultyDetailsDM> GetFacultyDetails(string departmentUid)
-	{
-		List<FacultyDetailsDM> facultyDetails = new List<FacultyDetailsDM>();
-		if(string.IsNullOrEmpty(departmentUid)) return facultyDetails;
-		facultyDetails = (from f in this.collegeDatabaseContext.Faculties
-				where f.DepartmentUid.ToString() == departmentUid
-				select new FacultyDetailsDM
-				{
-					FirstName = f.FirstName,
-					LastName = f.LastName,
-					FacultyUid = f.FacultyUid.ToString(),
-					Address = f.Address,
-					DepartmentUid = f.DepartmentUid.ToString(),
-					Email = f.Email,
-					Phone = f.Phone
-				}).ToList();
+    public List<FacultyDetailsDM> GetFacultyDetails(string departmentUid)
+    {
+        List<FacultyDetailsDM> facultyDetails = new List<FacultyDetailsDM>();
+        if (string.IsNullOrEmpty(departmentUid)) return facultyDetails;
+        facultyDetails = (from f in this.collegeDatabaseContext.Faculties
+                          where f.DepartmentUid.ToString() == departmentUid
+                          select new FacultyDetailsDM
+                          {
+                              FirstName = f.FirstName,
+                              LastName = f.LastName,
+                              FacultyUid = f.FacultyUid.ToString(),
+                              Address = f.Address,
+                              DepartmentUid = f.DepartmentUid.ToString(),
+                              Email = f.Email,
+                              Phone = f.Phone
+                          }).ToList();
 
-		return facultyDetails;
-	}
+        return facultyDetails;
+    }
+
+    public FacultyDetailsDM GetFaculty(string emailId, string departmentUid)
+    {
+        var faculty = (from f in this.collegeDatabaseContext.Faculties
+                          where f.DepartmentUid.ToString() == departmentUid && f.Email == emailId
+                          select new FacultyDetailsDM
+                          {
+                              FirstName = f.FirstName,
+                              LastName = f.LastName,
+                              FacultyUid = f.FacultyUid.ToString(),
+                              Address = f.Address,
+                              DepartmentUid = f.DepartmentUid.ToString(),
+                              Email = f.Email,
+                              Phone = f.Phone
+                          }).FirstOrDefault();
+
+        return faculty;
+    }
 
     public bool AddFaculty(AddFacultyDetailsDM facultyDetails)
     {
         Faculty faculty = new Faculty()
         {
-			FirstName = facultyDetails.FirstName,
-			LastName = facultyDetails.LastName,
-			Email = facultyDetails.EmailId,
-			Phone = facultyDetails.Phone,
-			Address = facultyDetails.Address,
-			DepartmentUid = Guid.Parse(facultyDetails.DepartmentUid)
+            FirstName = facultyDetails.FirstName,
+            LastName = facultyDetails.LastName,
+            Email = facultyDetails.EmailId,
+            Phone = facultyDetails.Phone,
+            Address = facultyDetails.Address,
+            DepartmentUid = Guid.Parse(facultyDetails.DepartmentUid)
         };
 
         this.collegeDatabaseContext.Faculties.Add(faculty);
@@ -80,5 +98,5 @@ public class FacultyRepository : IFacultyRepository
         }
     }
 
-	#endregion
+    #endregion
 }

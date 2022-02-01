@@ -7,4 +7,5 @@ public interface IFacultyRepository
 {
 	List<FacultyDetailsDM> GetFacultyDetails(string departmentUid);
     bool AddFaculty(AddFacultyDetailsDM facultyDetails);
+    FacultyDetailsDM GetFaculty(string emailId, string departmentUid);
 }
