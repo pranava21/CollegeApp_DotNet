@@ -18,6 +18,7 @@ namespace CollegeApp_DotNet.BusinessDomain
             CreateMap<AttendanceModelBM, AttendanceModelDM>().ReverseMap();
             CreateMap<AttendanceModelBM, AttendanceModelDM>().ReverseMap();
             CreateMap<FacultyDetailsDM, FacultyDetailsBM>().ReverseMap();
+            CreateMap<AddUserBM, AddUserDM>().ReverseMap();
         }
     }
 }

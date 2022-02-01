@@ -44,8 +44,10 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                 foreach (var studentDetail in studentDetails)
                 {
                     StudentDepartmentDetails student = new StudentDepartmentDetails();
-                    student.StudentName = studentDetail.StudentName;
+                    student.StudentFirstName = studentDetail.StudentFirstName;
+                    student.StudentLastName = studentDetail.StudentLastName;
                     student.StudentUid = studentDetail.StudentUid;
+                    student.StudentId = studentDetail.StudentId;
                     student.StudentEmail = studentDetail.StudentEmail;
                     student.PhoneNo = studentDetail.PhoneNo;
                     student.DepartmentUid = departmentDetails.DepartmentUid.ToString();
@@ -73,6 +75,30 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                 logger.Information("Module: StudentBL/GetStudentDetails - BL: End");
                 return responseMessage;
             }
+        }
+
+        public ResponseMessageBM<StudentDepartmentDetails> GetStudent(string emailId, string departmentUid)
+        {
+            ResponseMessageBM<StudentDepartmentDetails> response = new ResponseMessageBM<StudentDepartmentDetails>();
+            var departmentDetails = departmentRepository.GetDepartmentDetailsById(departmentUid);
+            var student = studentRespository.GetStudent(emailId);
+            StudentDepartmentDetails studentDetails = new StudentDepartmentDetails
+            {
+                StudentEmail = emailId,
+                DepartmentUid = departmentUid,
+                DepartmentName = departmentDetails.DepartmentName,
+                PhoneNo = student.PhoneNo,
+                StudentFirstName = student.StudentFirstName,
+                StudentLastName = student.StudentLastName,
+                StudentId = student.StudentId,
+                StudentUid =student.StudentUid
+            };
+
+            response.IsSuccess = true;
+            response.Response = studentDetails;
+            response.Message = "Success";
+
+            return response;
         }
 
         public Response AddStudent(AddStudentDetailsBM studentDetailsBM)
@@ -133,7 +159,7 @@ namespace CollegeApp_DotNet.BusinessDomain.BusinessLogic
                     return new Response
                     {
                         IsSuccess = true,
-                        Message = "Attendance recored successfully"
+                        Message = "Attendance recorded successfully"
                     };
                 }
                 else

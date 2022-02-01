@@ -36,10 +36,30 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                                   select new StudentDetails
                                   {
                                       StudentUid = s.StudentUid.ToString(),
-                                      StudentName = s.Name,
+                                      StudentId = s.StudentId,
+                                      StudentFirstName = s.FirstName,
+                                      StudentLastName = s.LastName,
                                       StudentEmail = s.Email,
                                       PhoneNo = s.Phone
                                   }).ToList();
+            logger.Information("Module: StudentRepository/GetStudentDetails - Repository: END");
+            return studentDetails;
+        }
+
+        public StudentDetails GetStudent(string emailId)
+        {
+            logger.Information("Module: StudentRepository/GetStudentDetails - Repository: START");
+            var studentDetails = (from s in this.context.Students
+                where s.Email == emailId
+                select new StudentDetails
+                {
+                    StudentUid = s.StudentUid.ToString(),
+                    StudentId = s.StudentId,
+                    StudentFirstName = s.FirstName,
+                    StudentLastName = s.LastName,
+                    StudentEmail = s.Email,
+                    PhoneNo = s.Phone
+                }).FirstOrDefault();
             logger.Information("Module: StudentRepository/GetStudentDetails - Repository: END");
             return studentDetails;
         }
@@ -56,20 +76,27 @@ namespace CollegeApp_DotNet.DataAccess.Repository
                 return false; 
             }
 
-            var studentListByName = this.GetStudentDetailsByName(studentDetails.DepartmentUid, studentDetails.Name);
-            if (studentListByName.Count > 0) {
-                logger.Information("Module: StudentRepository/AddStudent - Repository: Student already exists");
-                logger.Information("Module: StudentRepository/AddStudent - Repository: END");
-                return false; 
+            var studentId = GetStudentDetailsByName(studentDetails.DepartmentUid, studentDetails.FirstName, studentDetails.LastName);
+            if (string.IsNullOrEmpty(studentId)) {
+                logger.Information("Module: StudentRepository/AddStudent - Repository: Student No Prior Student");
+                studentId = "COL" +  1.ToString("D7");
+            }
+            else
+            {
+                var num = int.Parse(studentId.Split('L')[1]);
+                num += 1;
+                studentId = "COL" + num.ToString("D7");
             }
 
             var student = new Student
             {
                 DepartmentUid = Guid.Parse(studentDetails.DepartmentUid),
-                Name = studentDetails.Name,
+                FirstName = studentDetails.FirstName,
+                LastName = studentDetails.LastName,
                 Email = studentDetails.Email,
                 Phone = studentDetails.Phone,
-                Address = studentDetails.Address
+                Address = studentDetails.Address,
+                StudentId = studentId
             };
             this.context.Students.Add(student);
             using (var transaction = this.context.Database.BeginTransaction())
@@ -141,21 +168,16 @@ namespace CollegeApp_DotNet.DataAccess.Repository
         #endregion
 
         #region Private Methods
-        private List<StudentDetails> GetStudentDetailsByName(string departmentUid, string name)
+        private string GetStudentDetailsByName(string departmentUid, string firstName, string lastName)
         {
             logger.Information("Module: StudentRepository/GetStudentDetailsByName - Repository: START");
             var studentDetails = (from s in this.context.Students
-                                  where s.DepartmentUid.ToString() == departmentUid && s.Name.ToLower() == name.ToLower()
-                                  select new StudentDetails
-                                  {
-                                      StudentUid = s.StudentUid.ToString(),
-                                      StudentName = s.Name,
-                                      StudentEmail = s.Email,
-                                      PhoneNo = s.Phone
-                                  }).ToList();
+                select s.StudentId).ToList();
+            studentDetails.Sort();
+            studentDetails.Reverse();
             logger.Information("Module: StudentRepository/GetStudentDetailsByName - Repository: " + JsonConvert.SerializeObject(studentDetails));
             logger.Information("Module: StudentRepository/GetStudentDetailsByName - Repository: END");
-            return studentDetails;
+            return studentDetails.FirstOrDefault();
         }
         private int GetLatestAttendanceId()
         {
