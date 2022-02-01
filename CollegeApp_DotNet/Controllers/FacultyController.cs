@@ -1,8 +1,10 @@
 ﻿using CollegeApp_DotNet.BusinessDomain.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeApp_DotNet.WebServices.Controllers;
 
+[Authorize]
 [Route("Faculty")]
 [ApiController]
 public class FacultyController : Controller

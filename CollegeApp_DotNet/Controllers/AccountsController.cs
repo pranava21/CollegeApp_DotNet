@@ -1,9 +1,11 @@
 ﻿using CollegeApp_DotNet.BusinessDomain.Interface;
 using CollegeApp_DotNet.BusinessDomain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeApp_DotNet.WebServices.Controllers
 {
+    [Authorize]
     [Route("Accounts")]
     [ApiController]
     public class AccountsController : Controller
