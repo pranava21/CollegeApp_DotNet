@@ -2,7 +2,9 @@ using AutoMapper;
 using CollegeApp_DotNet.BusinessDomain;
 using CollegeApp_DotNet.DataAccess.Models;
 using CollegeApp_DotNet.WebServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
 
@@ -43,6 +45,19 @@ builder.Services.AddSwaggerGen();
 string connString = builder.Configuration.GetConnectionString("CollegeAppConnectionString");
 builder.Services.AddDbContext<collegeDatabaseContext>(options => options.UseNpgsql(connString));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://securetoken.google.com/college-app-4d7d2";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "https://securetoken.google.com/college-app-4d7d2",
+            ValidateAudience = true,
+            ValidAudience = "college-app-4d7d2",
+            ValidateLifetime = true
+        };
+    });
 
 DependencyInjection.RegisterServies(builder.Services);
 
@@ -55,6 +70,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthorization();

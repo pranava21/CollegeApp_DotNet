@@ -7,5 +7,6 @@ namespace CollegeApp_DotNet.BusinessDomain.Interface
         ResponseMessageBM<List<StudentDepartmentDetails>> GetStudentDetails(string departmentUid);
         Response AddStudent(AddStudentDetailsBM studentDetailsBM);
         Response TakeAttendance(List<AttendanceModelBM> attendanceDetails);
+        ResponseMessageBM<StudentDepartmentDetails> GetStudent(string emailId, string departmentUid);
     }
 }
